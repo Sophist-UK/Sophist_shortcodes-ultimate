@@ -466,22 +466,25 @@ class Su_Shortcodes {
 
 	public static function box( $atts = null, $content = null ) {
 		$atts = shortcode_atts( array(
-				'title'       => __( 'This is box title', 'su' ),
-				'style'       => 'default',
-				'box_color'   => '#333333',
-				'title_color' => '#FFFFFF',
-				'color'       => null, // 3.x
-				'radius'      => '3',
-				'class'       => ''
+				'title'        => __( 'This is box title', 'su' ),
+				'style'        => 'default',
+				'box_color'    => '#333333',
+				'title_color'  => '#FFFFFF',
+				'color'        => null, // 3.x
+				'border_width' => '',
+				'radius'       => '3',
+				'class'        => ''
 			), $atts, 'box' );
 		if ( $atts['color'] !== null ) $atts['box_color'] = $atts['color'];
 		// Prepare border-radius
 		$radius = ( $atts['radius'] != '0' ) ? 'border-radius:' . $atts['radius'] . 'px;-moz-border-radius:' . $atts['radius'] . 'px;-webkit-border-radius:' . $atts['radius'] . 'px;' : '';
-		$title_radius = ( $atts['radius'] != '0' ) ? $atts['radius'] - 1 : '';
-		$title_radius = ( $title_radius ) ? '-webkit-border-top-left-radius:' . $title_radius . 'px;-webkit-border-top-right-radius:' . $title_radius . 'px;-moz-border-radius-topleft:' . $title_radius . 'px;-moz-border-radius-topright:' . $title_radius . 'px;border-top-left-radius:' . $title_radius . 'px;border-top-right-radius:' . $title_radius . 'px;' : '';
+		$radius_adjust = ( $atts['border_width'] ) ? $atts['border_width'] : '2';
+		$title_radius = ( $atts['radius'] != '0' ) ? $atts['radius'] - $radius_adjust : '';
+		$title_radius = ( $title_radius ) ? '-webkit-border-radius:' . $title_radius . 'px ' . $title_radius . 'px 0 0;-moz-border-radius:' . $title_radius . 'px ' . $title_radius . 'px 0 0;border-radius:' . $title_radius . 'px ' . $title_radius . 'px 0 0;' : '';
+		$border_width = ( $atts['border_width'] ) ? 'border-width:' . $atts['border_width'] . 'px;' : '';
 		su_query_asset( 'css', 'su-box-shortcodes' );
 		// Return result
-		return '<div class="su-box su-box-style-' . $atts['style'] . su_ecssc( $atts ) . '" style="border-color:' . su_hex_shift( $atts['box_color'], 'darker', 20 ) . ';' . $radius . '"><div class="su-box-title" style="background-color:' . $atts['box_color'] . ';color:' . $atts['title_color'] . ';' . $title_radius . '">' . su_scattr( $atts['title'] ) . '</div><div class="su-box-content su-clearfix">' . su_do_shortcode( $content, 'b' ) . '</div></div>';
+		return '<div class="su-box su-box-style-' . $atts['style'] . su_ecssc( $atts ) . '" style="border-color:' . su_hex_shift( $atts['box_color'], 'darker', 20 ) . ';' . $radius . $border_width . '"><div class="su-box-title" style="background-color:' . $atts['box_color'] . ';color:' . $atts['title_color'] . ';' . $title_radius . '">' . su_scattr( $atts['title'] ) . '</div><div class="su-box-content su-clearfix">' . su_do_shortcode( $content, 'b' ) . '</div></div>';
 	}
 
 	public static function note( $atts = null, $content = null ) {

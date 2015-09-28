@@ -929,6 +929,15 @@ class Su_Data {
 							'default' => '#FFFFFF',
 							'name' => __( 'Title text color', 'su' ), 'desc' => __( 'Color for the box title text', 'su' )
 						),
+						'border_width' => array(
+							'type' => 'slider',
+							'min' => 0,
+							'max' => 5,
+							'step' => 1,
+							'default' => 2,
+							'name' => __( 'Border', 'su' ),
+							'desc' => __( 'Border width', 'su' )
+						),
 						'radius' => array(
 							'type' => 'slider',
 							'min' => 0,
